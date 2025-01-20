@@ -10,18 +10,7 @@ import (
 	"gorm.io/gorm/logger"
 )
 
-type Database interface {
-	InitConnection(host string, user string, password string, dbname string, port string, sslmode string) *gorm.DB
-}
-
-type database struct {
-}
-
-func NewDatabase() Database {
-	return &database{}
-}
-
-func (d *database) InitConnection(host string, user string, password string, dbname string, port string, sslmode string) *gorm.DB {
+func InitConnection(host string, user string, password string, dbname string, port string, sslmode string) *gorm.DB {
 	dsn := fmt.Sprintf(
 		"host=%s user=%s password=%s dbname=%s port=%s sslmode=%s TimeZone=Asia/Shanghai",
 		host,
