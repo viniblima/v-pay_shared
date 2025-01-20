@@ -5,9 +5,9 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"v-pay_shared/healthcheck"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/viniblima/v-pay_shared/pkg/healthcheck"
 	"gorm.io/gorm"
 )
 
