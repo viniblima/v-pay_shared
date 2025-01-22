@@ -1,6 +1,10 @@
 package messaging
 
-import "github.com/streadway/amqp"
+import (
+	"context"
+
+	"github.com/streadway/amqp"
+)
 
 type RabbitMQConsumer struct {
 	client *RabbitMQCLient
@@ -12,7 +16,7 @@ func NewRabbitMQConsumer(client *RabbitMQCLient) *RabbitMQConsumer {
 	}
 }
 
-func (r *RabbitMQConsumer) Start(queueName string, handler func(msg amqp.Delivery)) error {
+func (r *RabbitMQConsumer) Start(queueName string, contextLocal context.Context, handler func(msg amqp.Delivery, contextLocal context.Context)) error {
 	msgs, err := r.client.channel.Consume(
 		queueName, // queue
 		"",        // consumer
@@ -27,9 +31,8 @@ func (r *RabbitMQConsumer) Start(queueName string, handler func(msg amqp.Deliver
 	}
 
 	go func() {
-		print(msgs)
 		for msg := range msgs {
-			handler(msg)
+			handler(msg, contextLocal)
 		}
 	}()
 
